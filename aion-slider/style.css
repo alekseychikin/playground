@@ -1,0 +1,43 @@
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	position: relative;
+	margin: 0;
+	padding: 0;
+}
+
+body::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	pointer-events: none;
+	border: 1px dashed palegreen;
+}
+
+.slider {
+	padding-top: 50px;
+	position: relative;
+	overflow: hidden;
+}
+
+.items {
+	display: inline-flex;
+}
+
+.item {
+	width: 100px;
+	height: 100px;
+	background: peachpuff;
+	transform: scale(0.8);
+	line-height: 100px;
+	text-align: center;
+	font-size: 50px;
+	opacity: 0.5;
+	cursor: pointer;
+}

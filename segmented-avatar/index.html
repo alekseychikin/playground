@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Segmented avatar</title>
+	<style>
+		.segmented-avatar {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin: -125px 0 0 -125px;
+			border-radius: 50%;
+			width: 250px;
+			height: 250px;
+			background-image: url('0.jpg');
+			background-size: contain;
+		}
+
+		.segmented-avatar[data-segment="1"] {
+			background-image: url('1.jpg');
+		}
+
+		.segmented-avatar[data-segment="2"] {
+			background-image: url('2.jpg');
+		}
+
+		.segmented-avatar[data-segment="3"] {
+			background-image: url('3.jpg');
+		}
+
+		.segmented-avatar[data-segment="4"] {
+			background-image: url('4.jpg');
+		}
+
+		.segmented-avatar[data-segment="5"] {
+			background-image: url('5.jpg');
+		}
+
+		.segmented-avatar[data-segment="6"] {
+			background-image: url('6.jpg');
+		}
+
+		.segmented-avatar[data-segment="7"] {
+			background-image: url('7.jpg');
+		}
+
+		.segmented-avatar[data-segment="8"] {
+			background-image: url('8.jpg');
+		}
+	</style>
+</head>
+<body>
+	<div class="segmented-avatar"></div>
+
+	<script>
+		const avatar = document.querySelector('.segmented-avatar')
+		const avatarHalfSize = avatar.offsetWidth / 2
+		const centerLeft = avatar.offsetLeft + avatarHalfSize
+		const centerTop = avatar.offsetTop + avatarHalfSize
+		const segments = 8
+		const segmentDegreeses = 360 / segments
+
+		window.addEventListener('mousemove', (event) => {
+			const x = event.clientX - centerLeft
+			const y = centerTop - event.clientY
+			const degreeses = Math.atan(x / y) * 180 / Math.PI + (y < 0 ? 180 : x < 0 ? 360 : 0)
+			const segment = parseInt(((degreeses + segmentDegreeses / 2) % 360) / segmentDegreeses)
+			const length = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
+
+			avatar.setAttribute('data-segment', length > avatarHalfSize ? segment + 1 : 0)
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Wheel of fortune</title>
+	<link rel="stylesheet" href="./wheel-of-fortune.css">
+</head>
+<body>
+	<div class="wheel-of-fortune"></div>
+
+	<div style="margin-top: 30px; position: relative; z-index: 1;">
+		<button type="button" data-spin="0">Первый</button>
+		<button type="button" data-spin="1">Второй</button>
+		<button type="button" data-spin="2">Третий</button>
+		<button type="button" data-spin="3">Четвёртый</button>
+		<button type="button" data-spin="4">Пятый</button>
+		<button type="button" data-spin="5">Шестой</button>
+		<button type="button" data-spin="6">Седьмой</button>
+		<button type="button" data-spin="7">Восьмой</button>
+	</div>
+
+	<script type="module">
+		import WheelOfFortune from './wheel-of-fortune.js'
+
+		const wheelOfFortune = new WheelOfFortune(document.querySelector('.wheel-of-fortune'), [
+			'Первый',
+			'Второй',
+			'Третий',
+			'Четвёртый',
+			'Пятый',
+			'Шестой',
+			'Седьмой',
+			'Восьмой'
+		])
+		const buttons = Array.from(document.querySelectorAll('[data-spin]'))
+
+		buttons.forEach((button) => {
+			button.addEventListener('click', spin)
+		})
+
+		function spin(event) {
+			const index = Number(event.target.dataset.spin)
+
+			wheelOfFortune.spin(index)
+		}
+	</script>
+</body>
+</html>

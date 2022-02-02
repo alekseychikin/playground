@@ -1,0 +1,70 @@
+.wheel-of-fortune {
+	position: relative;
+	width: 350px;
+	height: 350px;
+	font: 12px/1 'Roboto', sans-serif;
+}
+
+.wheel-of-fortune__container {
+	position: absolute;
+	overflow: hidden;
+	top: 0;
+	left: 0;
+	border: 1px solid black;
+	border-radius: 50%;
+	width: 100%;
+	height: 100%;
+	background: #e5b598;
+}
+
+.wheel-of-fortune__segment {
+	position: absolute;
+	left: 50%;
+	top: -50%;
+	width: 100%;
+	height: 100%;
+	transform-origin: 0 100%;
+}
+
+.wheel-of-fortune__segment:nth-child(even) {
+	background: #e5b598;
+}
+
+.wheel-of-fortune__segment:nth-child(odd) {
+	background: #cae9c8;
+}
+
+.wheel-of-fortune__arrow {
+	position: absolute;
+	top: 50%;
+	left: 100%;
+	z-index: 2;
+	margin: -12px 0 0 -13px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 12.5px 30px 12.5px 0;
+	border-color: transparent #ae67cb transparent transparent;
+}
+
+.wheel-of-fortune__label {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 50%;
+	height: 50%;
+	transform-origin: 0 100%;
+}
+
+.wheel-of-fortune__label-text {
+	position: absolute;
+	top: 0;
+	left: 0;
+	box-sizing: border-box;
+	margin-left: -5px;
+	padding-left: 25px;
+	width: 100%;
+	height: 100%;
+	transform: rotate(-90deg);
+	text-align: center;
+}

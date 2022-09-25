@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Custom Scrollbar</title>
+
+	<style>
+		.container {
+			margin: 5vh auto 0;
+			border-radius: 10px;
+			width: 300px;
+			height: 80vh;
+			background: #ddd;
+		}
+
+		.scroller {
+			width: 100%;
+			height: 100%;
+			position: relative;
+		}
+
+		.scrollbar {
+			position: absolute;
+			top: 10px;
+			right: -10px;
+			bottom: 10px;
+			width: 10px;
+			background: linear-gradient(to right, transparent 0, transparent 5px, #000 5px, #000 6px, transparent 6px, transparent 10px);
+		}
+
+		.thumb {
+			position: absolute;
+			left: 3px;
+			border-radius: 2px;
+			width: 5px;
+			height: 50px;
+			background: #000;
+			cursor: pointer;
+		}
+
+		.wrapper {
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+
+		.scrollable {
+			overflow: auto;
+			width: 100%;
+			height: 100%;
+			padding-right: 30px;
+			box-sizing: content-box;
+		}
+
+		ul {
+			margin: 0;
+			padding: 20px 0 20px 30px;
+		}
+
+		li + li {
+			margin-top: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+
+		<div class="scroller">
+			<div class="scrollbar">
+				<div class="thumb"></div>
+			</div>
+			<div class="wrapper">
+				<div class="scrollable">
+					<div class="content">
+
+						<ul>
+							<li>List item 1</li>
+							<li>List item 2</li>
+							<li>List item 3</li>
+							<li>List item 4</li>
+							<li>List item 5</li>
+							<li>List item 6</li>
+							<li>List item 7</li>
+							<li>List item 8</li>
+							<li>List item 9</li>
+							<li>List item 10</li>
+							<li>List item 11</li>
+							<li>List item 12</li>
+							<li>List item 13</li>
+							<li>List item 14</li>
+							<li>List item 15</li>
+							<li>List item 16</li>
+							<li>List item 17</li>
+							<li>List item 18</li>
+							<li>List item 19</li>
+							<li>List item 20</li>
+							<li>List item 31</li>
+							<li>List item 32</li>
+							<li>List item 33</li>
+							<li>List item 34</li>
+							<li>List item 35</li>
+							<li>List item 36</li>
+							<li>List item 37</li>
+							<li>List item 38</li>
+							<li>List item 39</li>
+							<li>List item 40</li>
+							<li>List item 41</li>
+							<li>List item 42</li>
+							<li>List item 43</li>
+							<li>List item 44</li>
+							<li>List item 45</li>
+							<li>List item 46</li>
+							<li>List item 47</li>
+							<li>List item 48</li>
+							<li>List item 49</li>
+							<li>List item 50</li>
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="">
+		<button id="add-another-bunch">Add another bunch</button>
+	</div>
+
+	<script>
+		const addAnotherBunch = document.getElementById('add-another-bunch')
+		const list = document.getElementsByTagName('ul')[0]
+		let index = 51
+
+		addAnotherBunch.addEventListener('click', () => {
+			for (let i = 0; i < 10; i++) {
+				const item = document.createElement('li')
+
+				item.appendChild(document.createTextNode('List item ' + (index + i)))
+				list.appendChild(item)
+			}
+
+			index += 10
+		})
+
+		const scrollbar = document.querySelector('.scrollbar')
+		const thumb = document.querySelector('.thumb')
+		const scrollable = document.querySelector('.scrollable')
+		const content = document.querySelector('.content')
+		let ratio = 1
+
+		function update() {
+			const contentRatio = scrollable.offsetHeight / content.offsetHeight
+			const height = Math.max(scrollbar.offsetHeight * contentRatio, 50)
+
+			ratio = (scrollbar.offsetHeight - height) / (content.offsetHeight - scrollable.offsetHeight)
+			thumb.style.height = `${height}px`
+
+			scroll()
+		}
+
+		function scroll() {
+			const scrollTop = scrollable.scrollTop
+
+			thumb.style.top = `${scrollTop * ratio}px`
+		}
+
+		update()
+		scrollable.addEventListener('scroll', scroll)
+		window.addEventListener('resize', update)
+
+		const observer = new MutationObserver(update)
+		observer.observe(content, {
+			childList: true,
+			subtree: true
+		})
+
+		let moving = false
+		let start = 0
+		let current
+
+		thumb.addEventListener('pointerdown', (event) => {
+			start = event.clientY
+			current = scrollable.scrollTop
+			moving = true
+			thumb.setPointerCapture(event.pointerId)
+			document.body.style.webkitUserSelect = 'none'
+			document.body.style.mozUserSelect = 'none'
+			document.body.style.userSelect = 'none'
+		})
+		thumb.addEventListener('pointermove', (event) => {
+			if (moving) {
+				const delta = event.clientY - start
+
+				scrollable.scrollTop = current + delta / ratio
+			}
+		})
+		thumb.addEventListener('pointerup', pointerEnd)
+		thumb.addEventListener('lostpointercapture', pointerEnd)
+
+		function pointerEnd() {
+			moving = false
+			document.body.style.webkitUserSelect = ''
+			document.body.style.mozUserSelect = ''
+			document.body.style.userSelect = ''
+		}
+
+		scrollbar.addEventListener('click', (event) => {
+			if (event.target === scrollbar) {
+				scrollable.scrollTop = event.offsetY / ratio
+			}
+		})
+	</script>
+</body>
+</html>
